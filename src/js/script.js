@@ -1,8 +1,8 @@
+import {popup} from './modules/popup.js';
+    
 window.addEventListener('DOMContentLoaded', function() {
     "use strict";
 
-    let popup = require('./modules/popup.js');
-    
     popup();
 
 });

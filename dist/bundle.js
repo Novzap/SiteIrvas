@@ -86,18 +86,61 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./src/js/modules/main.js":
+/*!********************************!*\
+  !*** ./src/js/modules/main.js ***!
+  \********************************/
+/*! exports provided: getPopup */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPopup", function() { return getPopup; });
+var getPopup = function getPopup(btn, popup, close) {
+  var popupShow = function popupShow() {
+    btn.addEventListener('click', function () {
+      popup.classList.add('js-popupShow');
+    });
+  };
+
+  var popupClose = function popupClose() {
+    popup.addEventListener('click', function (e) {
+      if (popup === e.target) {
+        popup.classList.remove('js-popupShow');
+      }
+    });
+    close.addEventListener('click', function () {
+      popup.classList.remove('js-popupShow');
+    });
+  };
+
+  popupShow();
+  popupClose();
+};
+
+/***/ }),
+
 /***/ "./src/js/modules/popup.js":
 /*!*********************************!*\
   !*** ./src/js/modules/popup.js ***!
   \*********************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! exports provided: popup */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "popup", function() { return popup; });
+/* harmony import */ var _main_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./main.js */ "./src/js/modules/main.js");
 
 var popup = function popup() {
-  console.log(111);
-};
+  var popups = [document.querySelector('.popup_engineer')];
 
-module.exports = popup;
+  var popupengineer = function popupengineer() {
+    Object(_main_js__WEBPACK_IMPORTED_MODULE_0__["getPopup"])(document.querySelector('.popup_engineer_btn'), popups[0], document.querySelector('.popup_engineer .popup_close'));
+  };
+
+  popupengineer();
+};
 
 /***/ }),
 
@@ -105,15 +148,17 @@ module.exports = popup;
 /*!**************************!*\
   !*** ./src/js/script.js ***!
   \**************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _modules_popup_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/popup.js */ "./src/js/modules/popup.js");
 
 window.addEventListener('DOMContentLoaded', function () {
   "use strict";
 
-  var popup = __webpack_require__(/*! ./modules/popup.js */ "./src/js/modules/popup.js");
-
-  popup();
+  Object(_modules_popup_js__WEBPACK_IMPORTED_MODULE_0__["popup"])();
 });
 
 /***/ })

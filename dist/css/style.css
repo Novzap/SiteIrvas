@@ -843,6 +843,8 @@ textarea:focus {
 .popup_engineer,
 .popup_calc_end {
   display: none;
+  opacity: 0;
+  transition: opacity .5s;
   position: fixed;
   top: 0;
   left: 0;
@@ -850,6 +852,11 @@ textarea:focus {
   height: 100%;
   z-index: 9;
   background-color: rgba(0, 0, 0, 0.5);
+}
+
+.js-popupShow {
+  display: block;
+  opacity: 1;
 }
 
 .myimage {
