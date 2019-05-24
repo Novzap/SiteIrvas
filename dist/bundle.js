@@ -86,10 +86,83 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./src/js/modules/ImgFullScreen.js":
+/*!*****************************************!*\
+  !*** ./src/js/modules/ImgFullScreen.js ***!
+  \*****************************************/
+/*! exports provided: sizeImgScreen */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sizeImgScreen", function() { return sizeImgScreen; });
+var sizeImgScreen = function sizeImgScreen() {};
+
+/***/ }),
+
 /***/ "./src/js/modules/main.js":
 /*!********************************!*\
   !*** ./src/js/modules/main.js ***!
   \********************************/
+/*! exports provided: popup, getTabs, img */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "popup", function() { return popup; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTabs", function() { return getTabs; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "img", function() { return img; });
+/* harmony import */ var _popup_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./popup.js */ "./src/js/modules/popup.js");
+/* harmony import */ var _tabs_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./tabs.js */ "./src/js/modules/tabs.js");
+/* harmony import */ var _ImgFullScreen__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ImgFullScreen */ "./src/js/modules/ImgFullScreen.js");
+
+
+
+var popup = function popup() {
+  var close = document.querySelectorAll('.popup_content .popup_close'),
+      Phonelinks = document.querySelectorAll('.phone_link'),
+      popupEngineer = document.querySelector('.popup_engineer'),
+      popupEngineerBtn = document.querySelectorAll('.popup_engineer_btn'),
+      popup = document.querySelector('.popup');
+
+  var getPopupengineer = function getPopupengineer() {
+    Object(_popup_js__WEBPACK_IMPORTED_MODULE_0__["getPopup"])(popupEngineerBtn, popupEngineer, close);
+  };
+
+  var getPopupPhone = function getPopupPhone() {
+    Object(_popup_js__WEBPACK_IMPORTED_MODULE_0__["getPopup"])(Phonelinks, popup, close);
+  };
+
+  var getPopupTimeOut = function getPopupTimeOut() {
+    setTimeout(function () {
+      Object(_popup_js__WEBPACK_IMPORTED_MODULE_0__["getPopup"])(null, popup, close);
+    }, 60000);
+  };
+
+  getPopupengineer();
+  getPopupPhone();
+  getPopupTimeOut();
+};
+var getTabs = function getTabs() {
+  var tabsLink = document.querySelectorAll('.glazing_block a');
+  var tabsContent = document.querySelectorAll('.glazing .row');
+  var DecorationLink = document.querySelectorAll('.decoration_item div');
+  console.log(DecorationLink);
+  var DecorationContent = document.querySelectorAll('.decoration_content .decoration-item-content');
+  console.log(DecorationContent);
+  Object(_tabs_js__WEBPACK_IMPORTED_MODULE_1__["tabs"])(tabsLink, tabsContent, 'active');
+  Object(_tabs_js__WEBPACK_IMPORTED_MODULE_1__["tabs"])(DecorationLink, DecorationContent, 'after_click');
+};
+var img = function img() {
+  Object(_ImgFullScreen__WEBPACK_IMPORTED_MODULE_2__["sizeImgScreen"])();
+};
+
+/***/ }),
+
+/***/ "./src/js/modules/popup.js":
+/*!*********************************!*\
+  !*** ./src/js/modules/popup.js ***!
+  \*********************************/
 /*! exports provided: getPopup */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -97,6 +170,8 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPopup", function() { return getPopup; });
 var getPopup = function getPopup(btn, popup, close) {
+  "use strict";
+
   var popupShow = function popupShow() {
     if (btn === null) {
       popup.classList.add('js-popupShow');
@@ -130,42 +205,51 @@ var getPopup = function getPopup(btn, popup, close) {
 
 /***/ }),
 
-/***/ "./src/js/modules/popup.js":
-/*!*********************************!*\
-  !*** ./src/js/modules/popup.js ***!
-  \*********************************/
-/*! exports provided: popup */
+/***/ "./src/js/modules/tabs.js":
+/*!********************************!*\
+  !*** ./src/js/modules/tabs.js ***!
+  \********************************/
+/*! exports provided: tabs */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "popup", function() { return popup; });
-/* harmony import */ var _main_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./main.js */ "./src/js/modules/main.js");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "tabs", function() { return tabs; });
+var tabs = function tabs(tabsLink, tabsContent, styleClass) {
+  "use strict";
 
-var popup = function popup() {
-  var close = document.querySelectorAll('.popup_content .popup_close'),
-      Phonelinks = document.querySelectorAll('.phone_link'),
-      popupEngineer = document.querySelector('.popup_engineer'),
-      popupEngineerBtn = document.querySelectorAll('.popup_engineer_btn'),
-      popup = document.querySelector('.popup');
+  for (var i = 1; i < tabsContent.length; i++) {
+    tabsContent[i].classList.remove('show');
+    tabsContent[i].classList.add('hide');
+  }
 
-  var getPopupengineer = function getPopupengineer() {
-    Object(_main_js__WEBPACK_IMPORTED_MODULE_0__["getPopup"])(popupEngineerBtn, popupEngineer, close);
-  };
+  tabsLink[0].classList.add(styleClass);
+  tabsLink.forEach(function (element) {
+    element.addEventListener('click', function (e) {
+      e.preventDefault();
+      var target = e.target;
 
-  var getPopupPhone = function getPopupPhone() {
-    Object(_main_js__WEBPACK_IMPORTED_MODULE_0__["getPopup"])(Phonelinks, popup, close);
-  };
+      for (var _i = 0; _i < tabsLink.length; _i++) {
+        if (target == tabsLink[_i] || target === tabsLink[_i].querySelector('a')) {
+          for (var _i2 = 0; _i2 < tabsContent.length; _i2++) {
+            tabsContent[_i2].classList.remove('show');
 
-  var getPopupTimeOut = function getPopupTimeOut() {
-    setTimeout(function () {
-      Object(_main_js__WEBPACK_IMPORTED_MODULE_0__["getPopup"])(null, popup, close);
-    }, 60000);
-  };
+            tabsContent[_i2].classList.add('hide');
 
-  getPopupengineer();
-  getPopupPhone();
-  getPopupTimeOut();
+            tabsLink[_i2].classList.remove(styleClass);
+          }
+
+          if (tabsContent[_i].classList.contains('hide')) {
+            tabsContent[_i].classList.remove('hide');
+
+            tabsContent[_i].classList.add('show');
+
+            tabsLink[_i].classList.add(styleClass);
+          }
+        }
+      }
+    });
+  });
 };
 
 /***/ }),
@@ -179,12 +263,16 @@ var popup = function popup() {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _modules_popup_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/popup.js */ "./src/js/modules/popup.js");
+/* harmony import */ var _modules_main_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/main.js */ "./src/js/modules/main.js");
+
+
 
 window.addEventListener('DOMContentLoaded', function () {
   "use strict";
 
-  Object(_modules_popup_js__WEBPACK_IMPORTED_MODULE_0__["popup"])();
+  Object(_modules_main_js__WEBPACK_IMPORTED_MODULE_0__["popup"])();
+  Object(_modules_main_js__WEBPACK_IMPORTED_MODULE_0__["getTabs"])();
+  Object(_modules_main_js__WEBPACK_IMPORTED_MODULE_0__["img"])();
 });
 
 /***/ })

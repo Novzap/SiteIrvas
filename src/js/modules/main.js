@@ -1,30 +1,40 @@
-
-export const getPopup = (btn, popup, close) => {
-    const popupShow = () => {
-        if(btn === null) {
-            popup.classList.add('js-popupShow');
-            return;
-        }
-        for(let i = 0; i < btn.length; i++) {
-            btn[0].addEventListener('click', function() {
-                popup.classList.add('js-popupShow');
-            });
-        }
-
-
+import {getPopup} from "./popup.js";
+import {tabs} from "./tabs.js";
+import {sizeImgScreen} from "./ImgFullScreen";
+export const popup = () => {
+    let close = document.querySelectorAll('.popup_content .popup_close'),
+        Phonelinks = document.querySelectorAll('.phone_link'),
+        popupEngineer = document.querySelector('.popup_engineer'),
+        popupEngineerBtn = document.querySelectorAll('.popup_engineer_btn'),
+        popup = document.querySelector('.popup');
+    const getPopupengineer = () => {
+        getPopup(popupEngineerBtn, popupEngineer, close);
     };
-    const popupClose = () => {
-        for(let i = 0; i < close.length; i++) {
-            close[i].addEventListener('click', function() {
-                popup.classList.remove('js-popupShow');
-            });
-        }
-        popup.addEventListener('click', function(e) {
-            if(popup === e.target) {
-                popup.classList.remove('js-popupShow');
-            }
-        });
+    const getPopupPhone = () => {
+        getPopup(Phonelinks, popup, close);
     };
-    popupShow();
-    popupClose();
+    const getPopupTimeOut = () => {
+        setTimeout(function() {
+            getPopup(null, popup, close);
+        },60000);
+    };
+    getPopupengineer();
+    getPopupPhone();
+    getPopupTimeOut();
+};
+
+export const getTabs = () => {
+    let tabsLink = document.querySelectorAll('.glazing_block a');
+    let tabsContent = document.querySelectorAll('.glazing .row');
+    let DecorationLink = document.querySelectorAll('.decoration_item div');
+    console.log(DecorationLink);
+    let DecorationContent = document.querySelectorAll('.decoration_content .decoration-item-content');
+    console.log(DecorationContent);
+
+    tabs(tabsLink, tabsContent, 'active');
+    tabs(DecorationLink, DecorationContent, 'after_click');
+};
+
+export const img = () => {
+    sizeImgScreen();
 };

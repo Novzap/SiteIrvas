@@ -479,11 +479,18 @@ textarea:focus {
   padding: 2rem 2rem;
 }
 
-.glazing .aluminum,
-.glazing .plastic,
-.glazing .french,
-.glazing .rise {
+.glazing .aluminum.hide,
+.glazing .plastic.hide,
+.glazing .french.hide,
+.glazing .rise.hide {
   display: none;
+}
+
+.glazing .aluminum.show,
+.glazing .plastic.show,
+.glazing .french.show,
+.glazing .rise.show {
+  display: block;
 }
 
 .glazing a.active {
@@ -586,10 +593,17 @@ textarea:focus {
   color: #000000;
 }
 
-.decoration .external,
-.decoration .rising,
-.decoration .roof {
-  display: none;
+.decoration .internal.hide,
+.decoration .external.hide,
+.decoration .rising.hide,
+.decoration .roof.hide {
+  display: none !important;
+}
+.decoration .internal.show,
+.decoration .external.show,
+.decoration .rising.show,
+.decoration .roof.show {
+  display: block !important;
 }
 
 /*Our works*/
