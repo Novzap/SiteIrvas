@@ -98,19 +98,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPopup", function() { return getPopup; });
 var getPopup = function getPopup(btn, popup, close) {
   var popupShow = function popupShow() {
-    btn.addEventListener('click', function () {
+    if (btn === null) {
       popup.classList.add('js-popupShow');
-    });
+      return;
+    }
+
+    for (var i = 0; i < btn.length; i++) {
+      btn[0].addEventListener('click', function () {
+        popup.classList.add('js-popupShow');
+      });
+    }
   };
 
   var popupClose = function popupClose() {
+    for (var i = 0; i < close.length; i++) {
+      close[i].addEventListener('click', function () {
+        popup.classList.remove('js-popupShow');
+      });
+    }
+
     popup.addEventListener('click', function (e) {
       if (popup === e.target) {
         popup.classList.remove('js-popupShow');
       }
-    });
-    close.addEventListener('click', function () {
-      popup.classList.remove('js-popupShow');
     });
   };
 
@@ -133,13 +143,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _main_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./main.js */ "./src/js/modules/main.js");
 
 var popup = function popup() {
-  var popups = [document.querySelector('.popup_engineer')];
+  var close = document.querySelectorAll('.popup_content .popup_close'),
+      Phonelinks = document.querySelectorAll('.phone_link'),
+      popupEngineer = document.querySelector('.popup_engineer'),
+      popupEngineerBtn = document.querySelectorAll('.popup_engineer_btn'),
+      popup = document.querySelector('.popup');
 
-  var popupengineer = function popupengineer() {
-    Object(_main_js__WEBPACK_IMPORTED_MODULE_0__["getPopup"])(document.querySelector('.popup_engineer_btn'), popups[0], document.querySelector('.popup_engineer .popup_close'));
+  var getPopupengineer = function getPopupengineer() {
+    Object(_main_js__WEBPACK_IMPORTED_MODULE_0__["getPopup"])(popupEngineerBtn, popupEngineer, close);
   };
 
-  popupengineer();
+  var getPopupPhone = function getPopupPhone() {
+    Object(_main_js__WEBPACK_IMPORTED_MODULE_0__["getPopup"])(Phonelinks, popup, close);
+  };
+
+  var getPopupTimeOut = function getPopupTimeOut() {
+    setTimeout(function () {
+      Object(_main_js__WEBPACK_IMPORTED_MODULE_0__["getPopup"])(null, popup, close);
+    }, 60000);
+  };
+
+  getPopupengineer();
+  getPopupPhone();
+  getPopupTimeOut();
 };
 
 /***/ }),
