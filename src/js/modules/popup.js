@@ -6,7 +6,8 @@ export const getPopup = (btn, popup, close) => {
             return;
         }
         for(let i = 0; i < btn.length; i++) {
-            btn[0].addEventListener('click', function() {
+            btn[i].addEventListener('click', function(e) {
+                e.preventDefault();
                 popup.classList.add('js-popupShow');
             });
         }

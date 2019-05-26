@@ -1,6 +1,7 @@
 import {getPopup} from "./popup.js";
 import {tabs} from "./tabs.js";
-import {sizeImgScreen} from "./ImgFullScreen";
+import {sizeImgScreen} from "./ImgFullScreen.js";
+import {timer} from "./timer.js";
 export const popup = () => {
     let close = document.querySelectorAll('.popup_content .popup_close'),
         Phonelinks = document.querySelectorAll('.phone_link'),
@@ -24,12 +25,10 @@ export const popup = () => {
 };
 
 export const getTabs = () => {
-    let tabsLink = document.querySelectorAll('.glazing_block a');
+    let tabsLink = document.querySelectorAll('.glazing_block');
     let tabsContent = document.querySelectorAll('.glazing .row');
     let DecorationLink = document.querySelectorAll('.decoration_item div');
-    console.log(DecorationLink);
     let DecorationContent = document.querySelectorAll('.decoration_content .decoration-item-content');
-    console.log(DecorationContent);
 
     tabs(tabsLink, tabsContent, 'active');
     tabs(DecorationLink, DecorationContent, 'after_click');
@@ -37,4 +36,8 @@ export const getTabs = () => {
 
 export const img = () => {
     sizeImgScreen();
+};
+
+export const getTimer = () => {
+    timer();
 };

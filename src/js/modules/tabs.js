@@ -10,16 +10,24 @@ export const tabs = (tabsLink, tabsContent, styleClass) => {
             e.preventDefault();
             let target = e.target;
                 for(let i = 0; i < tabsLink.length; i++) {
-                    if(target == tabsLink[i] || target === tabsLink[i].querySelector('a')) {
+                    if(target == tabsLink[i] || target === tabsLink[i].querySelector('a') || target === tabsLink[i].querySelector('img')) {
                         for(let i = 0; i < tabsContent.length; i++) {
                             tabsContent[i].classList.remove('show');
                             tabsContent[i].classList.add('hide');
-                            tabsLink[i].classList.remove(styleClass);
+                            if(styleClass === 'active') {
+                                tabsLink[i].querySelector('a').classList.remove(styleClass);
+                            } else {
+                                tabsLink[i].classList.remove(styleClass);
+                            }
                         }
                         if (tabsContent[i].classList.contains('hide')) {
                             tabsContent[i].classList.remove('hide');
                             tabsContent[i].classList.add('show');
-                            tabsLink[i].classList.add(styleClass);
+                            if(styleClass === 'active') {
+                                tabsLink[i].querySelector('a').classList.add(styleClass);
+                            } else {
+                                tabsLink[i].classList.add(styleClass);
+                            }
                         }
                     }
                 }

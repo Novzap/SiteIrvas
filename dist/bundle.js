@@ -104,7 +104,7 @@ var sizeImgScreen = function sizeImgScreen() {};
 /*!********************************!*\
   !*** ./src/js/modules/main.js ***!
   \********************************/
-/*! exports provided: popup, getTabs, img */
+/*! exports provided: popup, getTabs, img, getTimer */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -112,9 +112,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "popup", function() { return popup; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTabs", function() { return getTabs; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "img", function() { return img; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTimer", function() { return getTimer; });
 /* harmony import */ var _popup_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./popup.js */ "./src/js/modules/popup.js");
 /* harmony import */ var _tabs_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./tabs.js */ "./src/js/modules/tabs.js");
-/* harmony import */ var _ImgFullScreen__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ImgFullScreen */ "./src/js/modules/ImgFullScreen.js");
+/* harmony import */ var _ImgFullScreen_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ImgFullScreen.js */ "./src/js/modules/ImgFullScreen.js");
+/* harmony import */ var _timer_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./timer.js */ "./src/js/modules/timer.js");
+
 
 
 
@@ -144,17 +147,18 @@ var popup = function popup() {
   getPopupTimeOut();
 };
 var getTabs = function getTabs() {
-  var tabsLink = document.querySelectorAll('.glazing_block a');
+  var tabsLink = document.querySelectorAll('.glazing_block');
   var tabsContent = document.querySelectorAll('.glazing .row');
   var DecorationLink = document.querySelectorAll('.decoration_item div');
-  console.log(DecorationLink);
   var DecorationContent = document.querySelectorAll('.decoration_content .decoration-item-content');
-  console.log(DecorationContent);
   Object(_tabs_js__WEBPACK_IMPORTED_MODULE_1__["tabs"])(tabsLink, tabsContent, 'active');
   Object(_tabs_js__WEBPACK_IMPORTED_MODULE_1__["tabs"])(DecorationLink, DecorationContent, 'after_click');
 };
 var img = function img() {
-  Object(_ImgFullScreen__WEBPACK_IMPORTED_MODULE_2__["sizeImgScreen"])();
+  Object(_ImgFullScreen_js__WEBPACK_IMPORTED_MODULE_2__["sizeImgScreen"])();
+};
+var getTimer = function getTimer() {
+  Object(_timer_js__WEBPACK_IMPORTED_MODULE_4__["timer"])();
 };
 
 /***/ }),
@@ -179,7 +183,8 @@ var getPopup = function getPopup(btn, popup, close) {
     }
 
     for (var i = 0; i < btn.length; i++) {
-      btn[0].addEventListener('click', function () {
+      btn[i].addEventListener('click', function (e) {
+        e.preventDefault();
         popup.classList.add('js-popupShow');
       });
     }
@@ -230,13 +235,17 @@ var tabs = function tabs(tabsLink, tabsContent, styleClass) {
       var target = e.target;
 
       for (var _i = 0; _i < tabsLink.length; _i++) {
-        if (target == tabsLink[_i] || target === tabsLink[_i].querySelector('a')) {
+        if (target == tabsLink[_i] || target === tabsLink[_i].querySelector('a') || target === tabsLink[_i].querySelector('img')) {
           for (var _i2 = 0; _i2 < tabsContent.length; _i2++) {
             tabsContent[_i2].classList.remove('show');
 
             tabsContent[_i2].classList.add('hide');
 
-            tabsLink[_i2].classList.remove(styleClass);
+            if (styleClass === 'active') {
+              tabsLink[_i2].querySelector('a').classList.remove(styleClass);
+            } else {
+              tabsLink[_i2].classList.remove(styleClass);
+            }
           }
 
           if (tabsContent[_i].classList.contains('hide')) {
@@ -244,12 +253,81 @@ var tabs = function tabs(tabsLink, tabsContent, styleClass) {
 
             tabsContent[_i].classList.add('show');
 
-            tabsLink[_i].classList.add(styleClass);
+            if (styleClass === 'active') {
+              tabsLink[_i].querySelector('a').classList.add(styleClass);
+            } else {
+              tabsLink[_i].classList.add(styleClass);
+            }
           }
         }
       }
     });
   });
+};
+
+/***/ }),
+
+/***/ "./src/js/modules/timer.js":
+/*!*********************************!*\
+  !*** ./src/js/modules/timer.js ***!
+  \*********************************/
+/*! exports provided: timer */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "timer", function() { return timer; });
+var timer = function timer() {
+  var deadline = '2019-12-18';
+
+  var getTimeRemaining = function getTimeRemaining(endTime) {
+    var t = Date.parse(endTime) - (Date.parse(new Date()) + new Date().getTimezoneOffset() * 60 * 1000),
+        days = Math.floor(t / (1000 * 60 * 60 * 24)),
+        hours = Math.floor(t / (1000 * 60 * 60) / 365),
+        minutes = Math.floor(t / 1000 / 60 % 60),
+        seconds = Math.floor(t / 1000 % 60);
+    return {
+      'total': t,
+      'days': days,
+      'hours': hours,
+      'minutes': minutes,
+      'seconds': seconds
+    };
+  };
+
+  var setClock = function setClock(id, endTime) {
+    var timer = document.getElementById(id),
+        days = timer.querySelector('#days'),
+        hours = timer.querySelector('#hours'),
+        minutes = timer.querySelector('#minutes'),
+        seconds = timer.querySelector('#seconds'),
+        timeInterval = setInterval(updateClock, 1000);
+
+    function updateClock() {
+      var t = getTimeRemaining(endTime);
+      days.textContent = t.days;
+      hours.textContent = t.hours;
+      minutes.textContent = t.minutes;
+      seconds.textContent = t.seconds;
+
+      if (t.hours < 10) {
+        hours.textContent = "0".concat(t.hours);
+      } else if (t.minutes < 10) {
+        minutes.textContent = "0".concat(t.minutes);
+      } else if (t.seconds < 10) {
+        seconds.textContent = "0".concat(t.seconds);
+      } else if (t.days < 10) {
+        days.textContent = "0".concat(t.days);
+      }
+
+      if (t.total <= 0) {
+        clearInterval(timeInterval);
+        days.textContent = '00', hours.textContent = '00', minutes.textContent = '00', seconds.textContent = '00';
+      }
+    }
+  };
+
+  setClock('timer', deadline);
 };
 
 /***/ }),
@@ -265,14 +343,13 @@ var tabs = function tabs(tabsLink, tabsContent, styleClass) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_main_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/main.js */ "./src/js/modules/main.js");
 
-
-
 window.addEventListener('DOMContentLoaded', function () {
   "use strict";
 
   Object(_modules_main_js__WEBPACK_IMPORTED_MODULE_0__["popup"])();
   Object(_modules_main_js__WEBPACK_IMPORTED_MODULE_0__["getTabs"])();
   Object(_modules_main_js__WEBPACK_IMPORTED_MODULE_0__["img"])();
+  Object(_modules_main_js__WEBPACK_IMPORTED_MODULE_0__["getTimer"])();
 });
 
 /***/ })
