@@ -2,6 +2,7 @@ import {getPopup} from "./popup.js";
 import {tabs} from "./tabs.js";
 import {sizeImgScreen} from "./ImgFullScreen.js";
 import {timer} from "./timer.js";
+import {forms} from "./forms.js";
 export const popup = () => {
     let close = document.querySelectorAll('.popup_content .popup_close'),
         Phonelinks = document.querySelectorAll('.phone_link'),
@@ -40,4 +41,8 @@ export const img = () => {
 
 export const getTimer = () => {
     timer();
+};
+
+export const getForms = () => {
+    forms();
 };

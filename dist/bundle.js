@@ -96,7 +96,128 @@
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sizeImgScreen", function() { return sizeImgScreen; });
-var sizeImgScreen = function sizeImgScreen() {};
+var sizeImgScreen = function sizeImgScreen() {
+  var linkImg = document.querySelectorAll('.works a');
+  var div = document.createElement('div');
+  div.classList.add('wrap-img');
+  var bigImg = document.querySelectorAll('.lupa');
+
+  for (var i = 0; i < linkImg.length; i++) {
+    linkImg[i].appendChild(div);
+  }
+
+  var div2 = document.querySelectorAll('.wrap-img');
+
+  for (var _i = 0; _i < div2.length; _i++) {
+    div2[_i].appendChild(bigImg[_i]);
+  }
+
+  linkImg.forEach(function (item) {
+    item.addEventListener('click', function (e) {
+      e.preventDefault();
+      div.classList.add('show');
+      div.firstChild.style.display = 'block';
+    });
+  });
+  div.addEventListener('click', function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (e.target === this) {
+      this.classList.remove('show');
+    }
+  });
+};
+
+/***/ }),
+
+/***/ "./src/js/modules/forms.js":
+/*!*********************************!*\
+  !*** ./src/js/modules/forms.js ***!
+  \*********************************/
+/*! exports provided: forms */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "forms", function() { return forms; });
+var forms = function forms() {
+  var message = {
+    loading: 'Загрузка...',
+    success: 'Спасибо! Скоро мы с вами свяжемся',
+    failure: 'Что-то пошло не так'
+  };
+  var statusMessage = document.createElement('div');
+  statusMessage.classList.add('status');
+
+  function submitForm(form) {
+    var input = document.querySelectorAll('.form input');
+    form.forEach(function (element) {
+      element.addEventListener('submit', function (e) {
+        e.preventDefault();
+        element.appendChild(statusMessage);
+        var formData = new FormData(form);
+
+        function postData(data) {
+          return new Promise(function (resolve, reject) {
+            var request = new XMLHttpRequest();
+            request.open('POST', 'server.php');
+            request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+            request.addEventListener('readystatechange', function () {
+              if (request.readyState < 4) {
+                resolve();
+              } else if (request.readyState === 4 && request.status === 200) {
+                resolve();
+              } else {
+                reject();
+              }
+            });
+            request.send(data);
+          });
+        }
+
+        function clearInput() {
+          for (var i = 0; i < input.length; i++) {
+            input[i].value = '';
+          }
+        }
+
+        var obj = {};
+        formData.forEach(function (value, key) {
+          obj[key] = value;
+        });
+        var json = JSON.stringify(obj);
+        postData(json).then(function () {
+          return statusMessage.textContent = message.loading;
+        }).then(function () {
+          statusMessage.textContent = message.success;
+        }).catch(function () {
+          return statusMessage.textContent = message.failure;
+        }).then(clearInput);
+      });
+    });
+
+    function clearInput() {
+      for (var i = 0; i < input.length; i++) {
+        input[i].value = '';
+      }
+    }
+
+    clearInput();
+    input.forEach(function (item) {
+      item.addEventListener('input', function (e) {
+        if (item.name !== 'email' && item.name !== 'user_name') {
+          if (e.data.search(/[0-9\+]/)) {
+            this.value = '';
+          }
+        }
+      });
+    });
+  }
+
+  submitForm(document.querySelectorAll('.popup_form'));
+  submitForm(document.querySelectorAll('.main_form'));
+};
 
 /***/ }),
 
@@ -104,7 +225,7 @@ var sizeImgScreen = function sizeImgScreen() {};
 /*!********************************!*\
   !*** ./src/js/modules/main.js ***!
   \********************************/
-/*! exports provided: popup, getTabs, img, getTimer */
+/*! exports provided: popup, getTabs, img, getTimer, getForms */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -113,10 +234,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTabs", function() { return getTabs; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "img", function() { return img; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTimer", function() { return getTimer; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getForms", function() { return getForms; });
 /* harmony import */ var _popup_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./popup.js */ "./src/js/modules/popup.js");
 /* harmony import */ var _tabs_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./tabs.js */ "./src/js/modules/tabs.js");
 /* harmony import */ var _ImgFullScreen_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ImgFullScreen.js */ "./src/js/modules/ImgFullScreen.js");
-/* harmony import */ var _timer_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./timer.js */ "./src/js/modules/timer.js");
+/* harmony import */ var _timer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./timer.js */ "./src/js/modules/timer.js");
+/* harmony import */ var _forms_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./forms.js */ "./src/js/modules/forms.js");
+
 
 
 
@@ -158,7 +282,10 @@ var img = function img() {
   Object(_ImgFullScreen_js__WEBPACK_IMPORTED_MODULE_2__["sizeImgScreen"])();
 };
 var getTimer = function getTimer() {
-  Object(_timer_js__WEBPACK_IMPORTED_MODULE_4__["timer"])();
+  Object(_timer_js__WEBPACK_IMPORTED_MODULE_3__["timer"])();
+};
+var getForms = function getForms() {
+  Object(_forms_js__WEBPACK_IMPORTED_MODULE_4__["forms"])();
 };
 
 /***/ }),
@@ -350,6 +477,7 @@ window.addEventListener('DOMContentLoaded', function () {
   Object(_modules_main_js__WEBPACK_IMPORTED_MODULE_0__["getTabs"])();
   Object(_modules_main_js__WEBPACK_IMPORTED_MODULE_0__["img"])();
   Object(_modules_main_js__WEBPACK_IMPORTED_MODULE_0__["getTimer"])();
+  Object(_modules_main_js__WEBPACK_IMPORTED_MODULE_0__["getForms"])();
 });
 
 /***/ })
