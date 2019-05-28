@@ -1,4 +1,4 @@
-import {popup, getTabs, img, getTimer, getForms} from './modules/main.js';
+import {popup, getTabs, img, getTimer, getForms, calcPopup} from './modules/main.js';
     
 window.addEventListener('DOMContentLoaded', function() {
     "use strict";
@@ -8,4 +8,5 @@ window.addEventListener('DOMContentLoaded', function() {
     img();
     getTimer();
     getForms();
+    calcPopup();
 });

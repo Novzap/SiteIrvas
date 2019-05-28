@@ -1,4 +1,4 @@
-export const getPopup = (btn, popup, close) => {
+export const getPopup = (btn, popup, close, closeDown) => {
     "use strict";
     const popupShow = () => {
         if(btn === null) {
@@ -20,12 +20,13 @@ export const getPopup = (btn, popup, close) => {
                 popup.classList.remove('js-popupShow');
             });
         }
-        popup.addEventListener('click', function(e) {
-            if(popup === e.target) {
-                popup.classList.remove('js-popupShow');
-            }
-        });
+            popup.addEventListener('click', function(e) {
+                if(popup === e.target && !closeDown) {
+                    popup.classList.remove('js-popupShow');
+                }
+            });
     };
     popupShow();
     popupClose();
+    return popup;
 };
